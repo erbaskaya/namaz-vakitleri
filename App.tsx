@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, Platform, SafeAreaView, StatusBar as RNStatusBar, StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import type { AlertSettings, PrayerDay, ReligiousDay, SelectedLocation } from './src/types';
 import { BottomNav, type TabKey } from './src/components/BottomNav';
 import { LocationPicker } from './src/components/LocationPicker';
@@ -21,7 +22,7 @@ import { getNextPrayer, getTurkeyDateKey, getTurkeyYear } from './src/utils/time
 const LOCATION_KEY = '@vakit/selected-location';
 const ALERTS_KEY = '@vakit/alert-settings';
 
-export default function App() {
+function AppContent() {
   const [tab, setTab] = useState<TabKey>('home');
   const [location, setLocation] = useState<SelectedLocation>(DEFAULT_LOCATION);
   const [prayerDays, setPrayerDays] = useState<PrayerDay[]>([]);
@@ -151,8 +152,9 @@ export default function App() {
   const openDays = () => setTab('days');
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       <StatusBar style="dark" backgroundColor={colors.background} />
+
       <View style={styles.app}>
         <View style={styles.body}>
           {tab === 'home' && (
@@ -170,7 +172,13 @@ export default function App() {
               onOpenDays={openDays}
             />
           )}
-          {tab === 'days' && <ReligiousDaysScreen days={religiousDays} year={year} loading={religiousLoading} />}
+          {tab === 'days' && (
+            <ReligiousDaysScreen
+              days={religiousDays}
+              year={year}
+              loading={religiousLoading}
+            />
+          )}
           {tab === 'alerts' && (
             <AlertsScreen
               settings={alerts}
@@ -189,7 +197,13 @@ export default function App() {
             />
           )}
         </View>
-        <BottomNav active={tab} onChange={setTab} />
+
+        <SafeAreaView
+          style={styles.bottomSafeArea}
+          edges={['bottom', 'left', 'right']}
+        >
+          <BottomNav active={tab} onChange={setTab} />
+        </SafeAreaView>
       </View>
 
       <LocationPicker
@@ -202,12 +216,27 @@ export default function App() {
   );
 }
 
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <AppContent />
+    </SafeAreaProvider>
+  );
+}
+
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: colors.background,
-    paddingTop: Platform.OS === 'android' ? RNStatusBar.currentHeight ?? 0 : 0,
   },
-  app: { flex: 1, backgroundColor: colors.background },
-  body: { flex: 1 },
+  app: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  body: {
+    flex: 1,
+  },
+  bottomSafeArea: {
+    backgroundColor: colors.surface,
+  },
 });
