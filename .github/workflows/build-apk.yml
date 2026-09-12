@@ -46,8 +46,20 @@ jobs:
           }
           EOF
 
+      - name: Gradle bellegini ayarla
+        run: |
+          sed -i '/^org\.gradle\.jvmargs=/d' android/gradle.properties || true
+          sed -i '/^kotlin\.daemon\.jvmargs=/d' android/gradle.properties || true
+          sed -i '/^org\.gradle\.workers\.max=/d' android/gradle.properties || true
+          {
+            echo ""
+            echo "org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=UTF-8"
+            echo "kotlin.daemon.jvmargs=-Xmx1536m"
+            echo "org.gradle.workers.max=2"
+          } >> android/gradle.properties
+
       - name: Java 17 kur
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
@@ -57,7 +69,7 @@ jobs:
 
       - name: Standalone release APK derle
         working-directory: android
-        run: ./gradlew :app:assembleRelease --no-daemon --stacktrace
+        run: ./gradlew :app:assembleRelease --no-daemon --stacktrace --max-workers=2
 
       - name: APK dosyasini hazirla
         run: |
