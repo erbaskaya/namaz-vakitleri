@@ -7,7 +7,6 @@ const PrayerTimesWidget = (props: PrayerWidgetPayload, environment: WidgetEnviro
   'widget';
   const blue = '#0B5FFF';
   const navy = environment.colorScheme === 'dark' ? '#FFFFFF' : '#0F1F36';
-  const countdown = props.countdown.replace(' kaldı', '');
 
   if (environment.widgetFamily === 'accessoryRectangular') {
     return (
@@ -16,7 +15,7 @@ const PrayerTimesWidget = (props: PrayerWidgetPayload, environment: WidgetEnviro
           {props.nextLabel}: {props.nextTime}
         </Text>
         <Text modifiers={[font({ weight: 'bold', size: 16 })]}>
-          Kalan: {countdown}
+          Kalan: {props.countdown}
         </Text>
       </VStack>
     );
@@ -28,7 +27,7 @@ const PrayerTimesWidget = (props: PrayerWidgetPayload, environment: WidgetEnviro
         {props.nextLabel}: {props.nextTime}
       </Text>
       <Text modifiers={[font({ weight: 'bold', size: 25 }), foregroundStyle(navy)]}>
-        Kalan: {countdown}
+        Kalan: {props.countdown}
       </Text>
     </VStack>
   );

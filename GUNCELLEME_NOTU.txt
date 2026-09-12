@@ -1,44 +1,15 @@
-NAMAZ VAKTI VE DINI GUNLER - TOPLU GUNCELLEME
+V5 GÜNCELLEMESİ
 
-Bu paket onceki tum duzeltmeleri birlikte icerir:
+1) Widget saniye göstermiyor.
+   Örnek:
+   İmsak: 05:11
+   Kalan: 04:02
 
-1. Ana sayfadaki 6 namaz vakti 3 sutun x 2 satir olarak gosterilir.
-2. Alt uygulama menusu Android sistem navigasyon tuslarinin / gesture alaninin ustunde kalir.
-3. Uygulama gorunen adi "Namaz Vakti ve Dini Gunler" olarak degistirildi.
-4. Uygulama icindeki marka basligi da Namaz Vakti / ve Dini Gunler / by baskaya olarak guncellendi.
-5. Android paket adi com.baskaya.vakit ayni tutuldu.
-6. GitHub Actions her build'de versionCode degerini otomatik artirir; yeni APK mevcut uygulamanin uzerine guncelleme olarak kurulabilir.
-7. WorkManager surum cakismasi icin dependency resolution duzeltmesi korunur.
-8. Gradle Java heap bellegi 4 GB ve worker sayisi 2 olarak ayarlanmistir.
-9. Expo config parser hatasini onleyen CommonJS app.config.ts kullanilir.
-10. setup-java v5 kullanilir.
+2) Android widget verisi artık yaklaşan namaz programını saklıyor. Sistem widget güncellemesi geldiğinde kalan süre yeniden hesaplanıyor ve namaz vakti geçince sıradaki namaza geçebiliyor. Android standart widget otomatik güncelleme aralığının alt sınırı 30 dakikadır.
 
-KULLANIM
-- GitHub reposundaki mevcut proje dosyalarini bu klasordeki dosyalarla ayni yollar korunacak sekilde guncelleyin.
-- .github/workflows/build-apk.yml dosyasinin da yuklendiginden emin olun.
-- Actions > Android APK Olustur > Run workflow.
-- Artifact icindeki Vakit-by-Baskaya.apk dosyasini telefonda acin.
-- Mevcut uygulamayi silmeyin; Android guncelleme olarak kurmalidir.
+3) Dini Günler ekranında 1 Ramazan ayrı ve belirgin kart olarak gösteriliyor.
+   2026: 1 Ramazan = 19 Şubat 2026 Perşembe.
 
+4) Diyanet mobil takviminde olay adı "Ramazan" olarak geldiği için parser buna göre düzeltildi. Eski eksik cache kullanılmaması için dini gün cache anahtarı v3 yapıldı.
 
-RAMAZAN BASLANGICI GUNCELLEMESI
-- Diyanet takvimindeki RAMAZAN BASLANGICI satiri artik otomatik okunur.
-- 2026 yedek tarih: 19 Subat 2026.
-- 2027 yedek tarih: 8 Subat 2027.
-- 2028 yedek tarih: 28 Ocak 2028.
-- Dini Gunler ekraninda Ramazan baslangici mavi RAMAZAN kategorisiyle gosterilir.
-- Eski eksik dini gunler cache anahtari v2 olarak yenilendi.
-
-KOMPAKT WIDGET GUNCELLEMESI
-- Android ana ekran widget boyutu 4x2 yerine 2x1 hedeflenir.
-- Widget artik sadece siradaki namaz adini ve o vakte kalan sureyi gosterir.
-- Konum, tarih, tum gunun vakitleri ve diger detaylar widget'tan kaldirildi.
-- Widget'a dokununca uygulama acilmaya devam eder.
-- iOS widget da sadece siradaki namaz ve kalan sureye sadeleştirildi; buyuk aileler kaldirildi.
-
-
-WIDGET VAKIT SAATI GUNCELLEMESI
-- Kompakt widget siradaki namazin saatini de gosterir.
-- Ornek: Aksam: 18:45:00
-- Alt satir: Kalan: 01:24:18
-- Widget 2x1 kompakt boyutta kalir.
+5) Önceki tüm düzeltmeler korunur: 3 sütun namaz vakitleri, safe-area, uygulama adı, küçük 2x1 widget, otomatik versionCode, Gradle bellek/WorkManager build düzeltmeleri.

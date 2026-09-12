@@ -1,30 +1,42 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import type { NextPrayer, PrayerDay, SelectedLocation } from '../types';
+import type { PrayerDay, SelectedLocation } from '../types';
+import { PRAYER_KEYS, PRAYER_LABELS } from '../data/defaults';
 import { findPrayerDay } from './prayerService';
-import { formatCountdown, formatLongDate, getNextPrayer, getTurkeyDateKey } from '../utils/time';
+import { formatLongDate, getTurkeyDateKey, turkeyDate } from '../utils/time';
 import { writeJson } from './storage';
 import { PrayerTimesAndroidWidget } from '../widgets/PrayerTimesAndroidWidget';
-import type { PrayerWidgetPayload } from '../widgets/widgetTypes';
+import type { PrayerWidgetPayload, WidgetPrayerEvent } from '../widgets/widgetTypes';
+import { makeWidgetEvent, resolveWidgetPayload } from '../widgets/widgetLogic';
 
 const PAYLOAD_KEY = '@vakit/widget-payload';
 
-function withSeconds(time?: string) {
-  if (!time) return '--:--:--';
-  const match = time.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?/);
-  if (!match) return time;
-  const hh = match[1].padStart(2, '0');
-  const mm = match[2];
-  const ss = match[3] ?? '00';
-  return `${hh}:${mm}:${ss}`;
+function buildUpcoming(days: PrayerDay[], now = new Date()): WidgetPrayerEvent[] {
+  const events: WidgetPrayerEvent[] = [];
+  const ordered = [...days].sort((a, b) => a.date.localeCompare(b.date));
+
+  for (const day of ordered) {
+    for (const key of PRAYER_KEYS) {
+      const at = turkeyDate(day.date, day.timings[key]);
+      if (at.getTime() <= now.getTime()) continue;
+      events.push(makeWidgetEvent(PRAYER_LABELS[key], day.timings[key], at));
+      if (events.length >= 36) return events;
+    }
+  }
+
+  return events;
 }
 
-function buildPayload(location: SelectedLocation, day: PrayerDay | undefined, next: NextPrayer | null, now = new Date()): PrayerWidgetPayload {
-  return {
+function buildPayload(location: SelectedLocation, days: PrayerDay[], now = new Date()): PrayerWidgetPayload {
+  const day = findPrayerDay(days, getTurkeyDateKey(now));
+  const upcoming = buildUpcoming(days, now);
+  const first = upcoming[0];
+
+  return resolveWidgetPayload({
     location: location.label,
-    nextLabel: next?.label ?? 'Sıradaki vakit',
-    nextTime: withSeconds(next?.time),
-    countdown: next ? `${formatCountdown(next.at.getTime() - now.getTime())} kaldı` : 'Vakit verisi bekleniyor',
+    nextLabel: first?.label ?? 'Sıradaki vakit',
+    nextTime: first?.time ?? '--:--',
+    countdown: '--:--',
     dateLabel: formatLongDate(now),
     fajr: day?.timings.Fajr ?? '--:--',
     sunrise: day?.timings.Sunrise ?? '--:--',
@@ -32,14 +44,13 @@ function buildPayload(location: SelectedLocation, day: PrayerDay | undefined, ne
     asr: day?.timings.Asr ?? '--:--',
     maghrib: day?.timings.Maghrib ?? '--:--',
     isha: day?.timings.Isha ?? '--:--',
-  };
+    upcoming,
+  }, now);
 }
 
 export async function refreshWidgets(location: SelectedLocation, days: PrayerDay[]) {
   const now = new Date();
-  const day = findPrayerDay(days, getTurkeyDateKey(now));
-  const next = getNextPrayer(days, now);
-  const payload = buildPayload(location, day, next, now);
+  const payload = buildPayload(location, days, now);
   await writeJson(PAYLOAD_KEY, payload);
 
   if (Platform.OS === 'android') {
@@ -53,21 +64,16 @@ export async function refreshWidgets(location: SelectedLocation, days: PrayerDay
   if (Platform.OS === 'ios') {
     const PrayerTimesWidget = require('../widgets/PrayerTimesWidget.ios').default;
     const timeline: Array<{ date: Date; props: PrayerWidgetPayload }> = [{ date: now, props: payload }];
-    const future = days
-      .filter((d) => d.date >= getTurkeyDateKey(now))
-      .slice(0, 3);
-    for (const d of future) {
-      for (const key of ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'] as const) {
-        const eventDate = new Date(`${d.date}T${d.timings[key]}:00+03:00`);
-        if (eventDate <= now) continue;
-        const nextAtEvent = getNextPrayer(days, new Date(eventDate.getTime() + 1000));
-        const dayAtEvent = findPrayerDay(days, d.date);
-        timeline.push({
-          date: eventDate,
-          props: buildPayload(location, dayAtEvent, nextAtEvent, eventDate),
-        });
-      }
+
+    // iOS WidgetKit zaman çizelgesiyle kalan süreyi yaklaşık 30 dakikada bir yeniler.
+    for (let step = 1; step <= 96; step++) {
+      const timelineDate = new Date(now.getTime() + step * 30 * 60 * 1000);
+      timeline.push({
+        date: timelineDate,
+        props: resolveWidgetPayload(payload, timelineDate),
+      });
     }
+
     PrayerTimesWidget.updateTimeline(timeline);
   }
 }

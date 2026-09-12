@@ -3,8 +3,6 @@ import { FlexWidget, TextWidget } from 'react-native-android-widget';
 import type { PrayerWidgetPayload } from './widgetTypes';
 
 export function PrayerTimesAndroidWidget({ data }: { data: PrayerWidgetPayload }) {
-  const countdown = data.countdown.replace(' kaldı', '');
-
   return (
     <FlexWidget
       style={{
@@ -28,7 +26,7 @@ export function PrayerTimesAndroidWidget({ data }: { data: PrayerWidgetPayload }
         }}
       />
       <TextWidget
-        text={`Kalan: ${countdown}`}
+        text={`Kalan: ${data.countdown}`}
         style={{
           fontSize: 21,
           fontWeight: '800',

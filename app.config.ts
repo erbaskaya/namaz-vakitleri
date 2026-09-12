@@ -7,7 +7,7 @@ const androidWidgetConfig = {
       minHeight: '55dp',
       targetCellWidth: 2,
       targetCellHeight: 1,
-      description: 'Sıradaki namaz saatini ve kalan süreyi gösterir.',
+      description: 'Sıradaki namaz saatini ve saat-dakika kalan süreyi gösterir.',
       previewImage: './assets/widget-preview/prayer-times.png',
       updatePeriodMillis: 1800000
     }
@@ -68,7 +68,7 @@ module.exports = ({ config }) => ({
           {
             name: 'PrayerTimesWidget',
             displayName: 'Namaz Vakti',
-            description: 'Sıradaki namaz saatini ve kalan süreyi gösterir.',
+            description: 'Sıradaki namaz saatini ve saat-dakika kalan süreyi gösterir.',
             supportedFamilies: [
               'systemSmall',
               'accessoryRectangular'
