@@ -1,7 +1,4 @@
-import type { ConfigContext, ExpoConfig } from 'expo/config';
-import type { WithAndroidWidgetsParams } from 'react-native-android-widget';
-
-const androidWidgetConfig: WithAndroidWidgetsParams = {
+const androidWidgetConfig = {
   widgets: [
     {
       name: 'PrayerTimesWidget',
@@ -17,7 +14,7 @@ const androidWidgetConfig: WithAndroidWidgetsParams = {
   ]
 };
 
-export default ({ config }: ConfigContext): ExpoConfig => ({
+module.exports = ({ config }) => ({
   ...config,
   name: 'Vakit',
   slug: 'vakit-by-baskaya',
@@ -40,7 +37,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#0B5FFF'
     },
-    permissions: ['ACCESS_COARSE_LOCATION', 'ACCESS_FINE_LOCATION', 'POST_NOTIFICATIONS', 'SCHEDULE_EXACT_ALARM']
+    permissions: [
+      'ACCESS_COARSE_LOCATION',
+      'ACCESS_FINE_LOCATION',
+      'POST_NOTIFICATIONS',
+      'SCHEDULE_EXACT_ALARM'
+    ]
   },
   plugins: [
     [
@@ -67,7 +69,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
             name: 'PrayerTimesWidget',
             displayName: 'Vakit',
             description: 'Sıradaki namazı, kalan süreyi ve günlük vakitleri gösterir.',
-            supportedFamilies: ['systemSmall', 'systemMedium', 'systemLarge', 'accessoryRectangular']
+            supportedFamilies: [
+              'systemSmall',
+              'systemMedium',
+              'systemLarge',
+              'accessoryRectangular'
+            ]
           }
         ]
       }
