@@ -21,18 +21,18 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Bagimliliklari kur
+        run: npm install --legacy-peer-deps --no-audit --no-fund
+
+      - name: Android native projesini olustur
+        run: npx expo prebuild --platform android --clean --no-install
+
       - name: Java 17 kur
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
           cache: gradle
-
-      - name: Bagimliliklari kur
-        run: npm install --legacy-peer-deps --no-audit --no-fund
-
-      - name: Android native projesini olustur
-        run: npx expo prebuild --platform android --clean --no-install
 
       - name: Gradle iznini ayarla
         run: chmod +x android/gradlew
