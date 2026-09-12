@@ -2,7 +2,7 @@ const androidWidgetConfig = {
   widgets: [
     {
       name: 'PrayerTimesWidget',
-      label: 'Vakit • Namaz Vakitleri',
+      label: 'Namaz Vakti ve Dini Günler',
       minWidth: '250dp',
       minHeight: '110dp',
       targetCellWidth: 4,
@@ -16,7 +16,7 @@ const androidWidgetConfig = {
 
 module.exports = ({ config }) => ({
   ...config,
-  name: 'Vakit',
+  name: 'Namaz Vakti ve Dini Günler',
   slug: 'vakit-by-baskaya',
   version: '1.0.0',
   orientation: 'portrait',
@@ -67,7 +67,7 @@ module.exports = ({ config }) => ({
         widgets: [
           {
             name: 'PrayerTimesWidget',
-            displayName: 'Vakit',
+            displayName: 'Namaz Vakti ve Dini Günler',
             description: 'Sıradaki namazı, kalan süreyi ve günlük vakitleri gösterir.',
             supportedFamilies: [
               'systemSmall',

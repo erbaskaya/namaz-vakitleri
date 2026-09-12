@@ -1,0 +1,21 @@
+NAMAZ VAKTI VE DINI GUNLER - TOPLU GUNCELLEME
+
+Bu paket onceki tum duzeltmeleri birlikte icerir:
+
+1. Ana sayfadaki 6 namaz vakti 3 sutun x 2 satir olarak gosterilir.
+2. Alt uygulama menusu Android sistem navigasyon tuslarinin / gesture alaninin ustunde kalir.
+3. Uygulama gorunen adi "Namaz Vakti ve Dini Gunler" olarak degistirildi.
+4. Uygulama icindeki marka basligi da Namaz Vakti / ve Dini Gunler / by baskaya olarak guncellendi.
+5. Android paket adi com.baskaya.vakit ayni tutuldu.
+6. GitHub Actions her build'de versionCode degerini otomatik artirir; yeni APK mevcut uygulamanin uzerine guncelleme olarak kurulabilir.
+7. WorkManager surum cakismasi icin dependency resolution duzeltmesi korunur.
+8. Gradle Java heap bellegi 4 GB ve worker sayisi 2 olarak ayarlanmistir.
+9. Expo config parser hatasini onleyen CommonJS app.config.ts kullanilir.
+10. setup-java v5 kullanilir.
+
+KULLANIM
+- GitHub reposundaki mevcut proje dosyalarini bu klasordeki dosyalarla ayni yollar korunacak sekilde guncelleyin.
+- .github/workflows/build-apk.yml dosyasinin da yuklendiginden emin olun.
+- Actions > Android APK Olustur > Run workflow.
+- Artifact icindeki Vakit-by-Baskaya.apk dosyasini telefonda acin.
+- Mevcut uygulamayi silmeyin; Android guncelleme olarak kurmalidir.
