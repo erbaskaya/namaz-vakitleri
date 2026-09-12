@@ -9,7 +9,7 @@ permissions:
 jobs:
   build-apk:
     name: Vakit APK
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
       NODE_ENV: production
@@ -21,10 +21,13 @@ jobs:
       - name: Node.js kur
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '20.20.2'
 
       - name: Bagimliliklari kur
         run: npm install --legacy-peer-deps --no-audit --no-fund
+
+      - name: Expo config kontrolu
+        run: npx expo config --type public
 
       - name: Android native projesini olustur
         run: npx expo prebuild --platform android --clean --no-install
@@ -48,7 +51,6 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-          cache: gradle
 
       - name: Gradle iznini ayarla
         run: chmod +x android/gradlew
@@ -76,5 +78,5 @@ jobs:
       - name: Sonuc ozeti
         run: |
           echo "## Vakit APK hazir" >> "$GITHUB_STEP_SUMMARY"
-          echo "Bu calismanin altindaki **Artifacts** bolumunden **Vakit-by-Baskaya-APK** paketini indirin." >> "$GITHUB_STEP_SUMMARY"
-          echo "APK dosyasi: \`Vakit-by-Baskaya.apk\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Artifacts bolumunden **Vakit-by-Baskaya-APK** paketini indirin." >> "$GITHUB_STEP_SUMMARY"
+          echo "APK: \`Vakit-by-Baskaya.apk\`" >> "$GITHUB_STEP_SUMMARY"
