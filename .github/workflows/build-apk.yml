@@ -1,0 +1,64 @@
+name: Android APK Olustur
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    name: Vakit APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Kaynak kodu al
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Java 17 kur
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Bagimliliklari kur
+        run: npm install --legacy-peer-deps --no-audit --no-fund
+
+      - name: Android native projesini olustur
+        run: npx expo prebuild --platform android --clean --no-install
+
+      - name: Gradle iznini ayarla
+        run: chmod +x android/gradlew
+
+      - name: Standalone release APK derle
+        working-directory: android
+        run: ./gradlew :app:assembleRelease --no-daemon --stacktrace
+
+      - name: APK dosyasini hazirla
+        run: |
+          mkdir -p output
+          cp android/app/build/outputs/apk/release/app-release.apk output/Vakit-by-Baskaya.apk
+          sha256sum output/Vakit-by-Baskaya.apk > output/Vakit-by-Baskaya.sha256
+
+      - name: APK'yi GitHub Artifacts'e yukle
+        uses: actions/upload-artifact@v4
+        with:
+          name: Vakit-by-Baskaya-APK
+          path: |
+            output/Vakit-by-Baskaya.apk
+            output/Vakit-by-Baskaya.sha256
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Sonuc ozeti
+        run: |
+          echo "## Vakit APK hazir" >> "$GITHUB_STEP_SUMMARY"
+          echo "Bu calismanin altindaki **Artifacts** bolumunden **Vakit-by-Baskaya-APK** paketini indirin." >> "$GITHUB_STEP_SUMMARY"
+          echo "APK dosyasi: \`Vakit-by-Baskaya.apk\`" >> "$GITHUB_STEP_SUMMARY"
