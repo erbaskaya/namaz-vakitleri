@@ -11,6 +11,8 @@ jobs:
     name: Vakit APK
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    env:
+      NODE_ENV: production
 
     steps:
       - name: Kaynak kodu al
@@ -26,6 +28,20 @@ jobs:
 
       - name: Android native projesini olustur
         run: npx expo prebuild --platform android --clean --no-install
+
+      - name: WorkManager surumlerini esitle
+        run: |
+          cat >> android/build.gradle <<'EOF'
+
+          subprojects {
+            configurations.configureEach {
+              resolutionStrategy {
+                force 'androidx.work:work-runtime:2.8.1'
+                force 'androidx.work:work-runtime-ktx:2.8.1'
+              }
+            }
+          }
+          EOF
 
       - name: Java 17 kur
         uses: actions/setup-java@v4
