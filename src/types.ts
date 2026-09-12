@@ -42,7 +42,7 @@ export type ReligiousDay = {
   id: string;
   date: string;
   title: string;
-  category: 'kandil' | 'bayram' | 'other';
+  category: 'kandil' | 'bayram' | 'ramazan' | 'other';
   dayLabel?: string;
 };
 

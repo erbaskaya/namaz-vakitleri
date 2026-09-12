@@ -19,3 +19,12 @@ KULLANIM
 - Actions > Android APK Olustur > Run workflow.
 - Artifact icindeki Vakit-by-Baskaya.apk dosyasini telefonda acin.
 - Mevcut uygulamayi silmeyin; Android guncelleme olarak kurmalidir.
+
+
+RAMAZAN BASLANGICI GUNCELLEMESI
+- Diyanet takvimindeki RAMAZAN BASLANGICI satiri artik otomatik okunur.
+- 2026 yedek tarih: 19 Subat 2026.
+- 2027 yedek tarih: 8 Subat 2027.
+- 2028 yedek tarih: 28 Ocak 2028.
+- Dini Gunler ekraninda Ramazan baslangici mavi RAMAZAN kategorisiyle gosterilir.
+- Eski eksik dini gunler cache anahtari v2 olarak yenilendi.

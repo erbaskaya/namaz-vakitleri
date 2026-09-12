@@ -11,6 +11,7 @@ const FALLBACK: Record<number, ReligiousDay[]> = {
   2026: [
     ['2026-01-15','Miraç Kandili','kandil'],
     ['2026-02-02','Berat Kandili','kandil'],
+    ['2026-02-19','Ramazan Başlangıcı','ramazan'],
     ['2026-03-16','Kadir Gecesi','kandil'],
     ['2026-03-20','Ramazan Bayramı • 1. Gün','bayram'],
     ['2026-03-21','Ramazan Bayramı • 2. Gün','bayram'],
@@ -25,6 +26,7 @@ const FALLBACK: Record<number, ReligiousDay[]> = {
   2027: [
     ['2027-01-04','Miraç Kandili','kandil'],
     ['2027-01-22','Berat Kandili','kandil'],
+    ['2027-02-08','Ramazan Başlangıcı','ramazan'],
     ['2027-03-05','Kadir Gecesi','kandil'],
     ['2027-03-09','Ramazan Bayramı • 1. Gün','bayram'],
     ['2027-03-10','Ramazan Bayramı • 2. Gün','bayram'],
@@ -38,6 +40,7 @@ const FALLBACK: Record<number, ReligiousDay[]> = {
     ['2027-12-24','Miraç Kandili','kandil'],
   ].map(([date,title,category], i) => ({ id:`2027-${i}`, date, title, category: category as ReligiousDay['category'] })),
   2028: [
+    ['2028-01-28','Ramazan Başlangıcı','ramazan'],
     ['2028-02-22','Kadir Gecesi','kandil'],
     ['2028-02-26','Ramazan Bayramı • 1. Gün','bayram'],
     ['2028-02-27','Ramazan Bayramı • 2. Gün','bayram'],
@@ -70,10 +73,12 @@ function cleanHtml(value: string): string {
 }
 
 function categoryFor(title: string): ReligiousDay['category'] {
+  if (/ramazan\s+başlangıcı/i.test(title)) return 'ramazan';
   if (/bayram/i.test(title)) return 'bayram';
   if (/kandil|kadir gecesi/i.test(title)) return 'kandil';
   return 'other';
 }
+
 
 function expandRange(year: number, month: number, dayText: string, title: string): ReligiousDay[] {
   const nums = dayText.match(/\d{1,2}/g)?.map(Number) ?? [];
@@ -93,7 +98,7 @@ function expandRange(year: number, month: number, dayText: string, title: string
 
 function parseDiyanetHtml(html: string, year: number): ReligiousDay[] {
   const rows = html.match(/<tr[\s\S]*?<\/tr>/gi) ?? [];
-  const wanted = /kandil|kadir gecesi|ramazan bayramı|kurban bayramı/i;
+  const wanted = /ramazan\s+başlangıcı|kandil|kadir gecesi|ramazan bayramı|kurban bayramı/i;
   const result: ReligiousDay[] = [];
   for (const row of rows) {
     const cells = (row.match(/<td[\s\S]*?<\/td>/gi) ?? []).map(cleanHtml);
@@ -114,7 +119,8 @@ function parseDiyanetHtml(html: string, year: number): ReligiousDay[] {
 }
 
 export async function getReligiousDays(year: number): Promise<ReligiousDay[]> {
-  const cacheKey = `@vakit/religious-days/${year}`;
+  // v2: Ramazan Başlangıcı eklendi. Eski eksik önbelleği tekrar kullanmamak için anahtar sürümlendi.
+  const cacheKey = `@vakit/religious-days/v2/${year}`;
   const cached = await readJson<ReligiousDay[]>(cacheKey, []);
   try {
     const response = await fetch(DIYANET_URL);
