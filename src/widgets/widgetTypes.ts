@@ -15,7 +15,7 @@ export type PrayerWidgetPayload = {
 export const EMPTY_WIDGET_PAYLOAD: PrayerWidgetPayload = {
   location: 'Konum seçin',
   nextLabel: 'Sıradaki vakit',
-  nextTime: '--:--',
+  nextTime: '--:--:--',
   countdown: 'Uygulamayı açın',
   dateLabel: 'Vakit',
   fajr: '--:--',

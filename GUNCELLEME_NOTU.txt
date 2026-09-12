@@ -28,3 +28,17 @@ RAMAZAN BASLANGICI GUNCELLEMESI
 - 2028 yedek tarih: 28 Ocak 2028.
 - Dini Gunler ekraninda Ramazan baslangici mavi RAMAZAN kategorisiyle gosterilir.
 - Eski eksik dini gunler cache anahtari v2 olarak yenilendi.
+
+KOMPAKT WIDGET GUNCELLEMESI
+- Android ana ekran widget boyutu 4x2 yerine 2x1 hedeflenir.
+- Widget artik sadece siradaki namaz adini ve o vakte kalan sureyi gosterir.
+- Konum, tarih, tum gunun vakitleri ve diger detaylar widget'tan kaldirildi.
+- Widget'a dokununca uygulama acilmaya devam eder.
+- iOS widget da sadece siradaki namaz ve kalan sureye sadeleştirildi; buyuk aileler kaldirildi.
+
+
+WIDGET VAKIT SAATI GUNCELLEMESI
+- Kompakt widget siradaki namazin saatini de gosterir.
+- Ornek: Aksam: 18:45:00
+- Alt satir: Kalan: 01:24:18
+- Widget 2x1 kompakt boyutta kalir.

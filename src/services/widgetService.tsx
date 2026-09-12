@@ -9,11 +9,21 @@ import type { PrayerWidgetPayload } from '../widgets/widgetTypes';
 
 const PAYLOAD_KEY = '@vakit/widget-payload';
 
+function withSeconds(time?: string) {
+  if (!time) return '--:--:--';
+  const match = time.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+  if (!match) return time;
+  const hh = match[1].padStart(2, '0');
+  const mm = match[2];
+  const ss = match[3] ?? '00';
+  return `${hh}:${mm}:${ss}`;
+}
+
 function buildPayload(location: SelectedLocation, day: PrayerDay | undefined, next: NextPrayer | null, now = new Date()): PrayerWidgetPayload {
   return {
     location: location.label,
     nextLabel: next?.label ?? 'Sıradaki vakit',
-    nextTime: next?.time ?? '--:--',
+    nextTime: withSeconds(next?.time),
     countdown: next ? `${formatCountdown(next.at.getTime() - now.getTime())} kaldı` : 'Vakit verisi bekleniyor',
     dateLabel: formatLongDate(now),
     fajr: day?.timings.Fajr ?? '--:--',

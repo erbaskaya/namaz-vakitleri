@@ -2,12 +2,12 @@ const androidWidgetConfig = {
   widgets: [
     {
       name: 'PrayerTimesWidget',
-      label: 'Namaz Vakti ve Dini Günler',
-      minWidth: '250dp',
-      minHeight: '110dp',
-      targetCellWidth: 4,
-      targetCellHeight: 2,
-      description: 'Sıradaki namazı, kalan süreyi ve günlük vakitleri gösterir.',
+      label: 'Namaz Vakti',
+      minWidth: '110dp',
+      minHeight: '55dp',
+      targetCellWidth: 2,
+      targetCellHeight: 1,
+      description: 'Sıradaki namaz saatini ve kalan süreyi gösterir.',
       previewImage: './assets/widget-preview/prayer-times.png',
       updatePeriodMillis: 1800000
     }
@@ -67,12 +67,10 @@ module.exports = ({ config }) => ({
         widgets: [
           {
             name: 'PrayerTimesWidget',
-            displayName: 'Namaz Vakti ve Dini Günler',
-            description: 'Sıradaki namazı, kalan süreyi ve günlük vakitleri gösterir.',
+            displayName: 'Namaz Vakti',
+            description: 'Sıradaki namaz saatini ve kalan süreyi gösterir.',
             supportedFamilies: [
               'systemSmall',
-              'systemMedium',
-              'systemLarge',
               'accessoryRectangular'
             ]
           }
