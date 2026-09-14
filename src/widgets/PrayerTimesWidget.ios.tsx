@@ -15,7 +15,7 @@ const PrayerTimesWidget = (props: PrayerWidgetPayload, environment: WidgetEnviro
           {props.nextLabel}: {props.nextTime}
         </Text>
         <Text modifiers={[font({ weight: 'bold', size: 16 })]}>
-          Kalan: {props.countdown}
+          {props.countdown}
         </Text>
       </VStack>
     );
@@ -27,7 +27,7 @@ const PrayerTimesWidget = (props: PrayerWidgetPayload, environment: WidgetEnviro
         {props.nextLabel}: {props.nextTime}
       </Text>
       <Text modifiers={[font({ weight: 'bold', size: 25 }), foregroundStyle(navy)]}>
-        Kalan: {props.countdown}
+        {props.countdown}
       </Text>
     </VStack>
   );

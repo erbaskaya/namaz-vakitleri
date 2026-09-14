@@ -26,7 +26,7 @@ export function PrayerTimesAndroidWidget({ data }: { data: PrayerWidgetPayload }
         }}
       />
       <TextWidget
-        text={`Kalan: ${data.countdown}`}
+        text={data.countdown}
         style={{
           fontSize: 21,
           fontWeight: '800',

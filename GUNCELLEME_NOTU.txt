@@ -13,3 +13,8 @@ V5 GÜNCELLEMESİ
 4) Diyanet mobil takviminde olay adı "Ramazan" olarak geldiği için parser buna göre düzeltildi. Eski eksik cache kullanılmaması için dini gün cache anahtarı v3 yapıldı.
 
 5) Önceki tüm düzeltmeler korunur: 3 sütun namaz vakitleri, safe-area, uygulama adı, küçük 2x1 widget, otomatik versionCode, Gradle bellek/WorkManager build düzeltmeleri.
+
+
+V6: Widget metnindeki 'Kalan:' etiketi kaldırıldı. 1 Ramazan üst karttan çıkarılıp diğer dini günler gibi liste içine alındı. Android ana ekran widget'ları sistem kısıtı nedeniyle saniye saniye değil, periyodik olarak yenilenir; bu yüzden geri sayım yaklaşık aralıklarla güncellenir.
+
+V7: Android widget için native dakika zamanlayıcısı eklendi. Widget her dakika başında yeniden hesaplanır; 00:45 -> 00:44 şeklinde azalır. Sistem uyku/pil tasarrufu durumunda Android birkaç saniye/gecikme uygulayabilir. V6 kurulmadan doğrudan V7 kurulabilir.
