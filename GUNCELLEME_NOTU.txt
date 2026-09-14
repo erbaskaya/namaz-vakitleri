@@ -18,3 +18,4 @@ V5 GÜNCELLEMESİ
 V6: Widget metnindeki 'Kalan:' etiketi kaldırıldı. 1 Ramazan üst karttan çıkarılıp diğer dini günler gibi liste içine alındı. Android ana ekran widget'ları sistem kısıtı nedeniyle saniye saniye değil, periyodik olarak yenilenir; bu yüzden geri sayım yaklaşık aralıklarla güncellenir.
 
 V7: Android widget için native dakika zamanlayıcısı eklendi. Widget her dakika başında yeniden hesaplanır; 00:45 -> 00:44 şeklinde azalır. Sistem uyku/pil tasarrufu durumunda Android birkaç saniye/gecikme uygulayabilir. V6 kurulmadan doğrudan V7 kurulabilir.
+V8: V7 build hatası düzeltildi. Minute receiver artık react-native-android-widget tarafından üretilen PrayerTimesWidget.java dosyasını ezmez. Ayrı PrayerWidgetMinuteReceiver her dakika widget update yayını gönderir ve kendini bir sonraki dakika için yeniden zamanlar.
