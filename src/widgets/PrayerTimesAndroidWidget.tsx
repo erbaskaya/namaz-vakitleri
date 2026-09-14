@@ -8,30 +8,48 @@ export function PrayerTimesAndroidWidget({ data }: { data: PrayerWidgetPayload }
       style={{
         height: 'match_parent',
         width: 'match_parent',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 18,
-        paddingHorizontal: 12,
-        paddingVertical: 7,
+        backgroundColor: '#0B67F0',
+        borderRadius: 22,
+        paddingHorizontal: 14,
+        paddingVertical: 10,
         flexDirection: 'column',
         justifyContent: 'center',
       }}
       clickAction="OPEN_APP"
     >
       <TextWidget
-        text={`${data.nextLabel}: ${data.nextTime}`}
+        text="Sıradaki"
         style={{
-          fontSize: 12,
-          fontWeight: '700',
-          color: '#0B5FFF',
+          fontSize: 9,
+          fontWeight: '600',
+          color: '#D9E8FF',
         }}
       />
       <TextWidget
-        text={data.countdown}
+        text={data.nextLabel}
         style={{
-          fontSize: 21,
+          fontSize: 17,
           fontWeight: '800',
-          color: '#0F1F36',
+          color: '#FFFFFF',
           marginTop: 2,
+        }}
+      />
+      <TextWidget
+        text={data.nextTime}
+        style={{
+          fontSize: 31,
+          fontWeight: '900',
+          color: '#FFFFFF',
+          marginTop: 0,
+        }}
+      />
+      <TextWidget
+        text="by baskaya"
+        style={{
+          fontSize: 7,
+          fontWeight: '500',
+          color: '#D9E8FF',
+          marginTop: 3,
         }}
       />
     </FlexWidget>

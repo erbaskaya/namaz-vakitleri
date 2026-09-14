@@ -7,7 +7,7 @@ const androidWidgetConfig = {
       minHeight: '55dp',
       targetCellWidth: 2,
       targetCellHeight: 1,
-      description: 'Sıradaki namaz saatini ve kalan süreyi kompakt biçimde gösterir.',
+      description: 'Sıradaki namazı ve gerçek vakit saatini kompakt biçimde gösterir.',
       previewImage: './assets/widget-preview/prayer-times.png',
       updatePeriodMillis: 1800000
     }
@@ -42,7 +42,6 @@ module.exports = ({ config }) => ({
       'ACCESS_FINE_LOCATION',
       'POST_NOTIFICATIONS',
       'SCHEDULE_EXACT_ALARM',
-      'RECEIVE_BOOT_COMPLETED'
     ]
   },
   plugins: [
@@ -69,7 +68,7 @@ module.exports = ({ config }) => ({
           {
             name: 'PrayerTimesWidget',
             displayName: 'Namaz Vakti',
-            description: 'Sıradaki namaz saatini ve kalan süreyi kompakt biçimde gösterir.',
+            description: 'Sıradaki namazı ve gerçek vakit saatini kompakt biçimde gösterir.',
             supportedFamilies: [
               'systemSmall',
               'accessoryRectangular'
@@ -78,7 +77,6 @@ module.exports = ({ config }) => ({
         ]
       }
     ],
-    ['react-native-android-widget', androidWidgetConfig],
-    './plugins/withMinuteWidgetUpdates'
+    ['react-native-android-widget', androidWidgetConfig]
   ]
 });

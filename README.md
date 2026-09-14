@@ -1,3 +1,7 @@
+# V10 Widget
+
+Widget artık güvenilirlik için yalnızca sıradaki namazı ve vaktin saatini gösterir; geri sayım kaldırılmıştır.
+
 # Vakit — Türkiye Namaz Vakitleri
 
 **Vakit**, Android ve iOS için tek Expo / React Native kod tabanından çalışan modern bir namaz vakitleri uygulamasıdır.
